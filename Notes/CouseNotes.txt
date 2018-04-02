@@ -36,3 +36,20 @@ What you accomplished this week
 You signed up for an AWS Account
 You launched your first web server into AWS
 You built the virtual network we'll use in upcoming exercises and connected to your EC2 instance
+
+Week 2 Notes
+
+*Everything in AWS is an API called
+*BOTO 3 is the SDK for python
+*Credentials in AWS are:
+ -AWS Access Key
+ -AWS Secret Key
+*These credentials must be stored in a file called "credentials", we do this through the "aws configure" command, the default output format a JSON
+*The credentials determine the permissions
+*The authentication is through a service called IAM (Identity and Access Manager)
+*IAM can be used with a user that already exists or it can be used to create a new user
+
+*First lines of code:
+import boto3
+S3 client = boto3.resource('S3'); #it can be also EC3, DynamoDB, and so on
+S3.meta.client.upload_file(...here we pass all the parameters needed for the call...);
