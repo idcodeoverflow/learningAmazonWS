@@ -1,3 +1,14 @@
+*Service Oriented Architechture
+*The communication is through an API
+*Amazon EC2: Elastic Compute Cloud
+*Properties that need to be configured for Amazon EC2:
+ -AMI: Amazon Machine Image
+ -Instance Type: Hardware Profile
+ -Security Groups
+ -Storage
+ -Key Pairs
+
+
 Key Topics
 AWS Cloud
 The AWS Cloud lets you build applications quickly and cost effectively - you pay for the resources you need and can quickly add more resources when you need them.
