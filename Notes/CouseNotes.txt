@@ -7,7 +7,52 @@
  -Security Groups
  -Storage
  -Key Pairs
+*How my code works?
+ -App -> VM -> Server (Host) -> Availability Zone (Logical Data Center) -> Grouping of AZ's in Regions (at least 2 AZ's per Region) -> API Region -> API Call
+*Scope of services:
+ -AZ scope: EC2
+ -Region Scope: S3
+*VPC: Virtual Private Cloud
+*Instead of configuring each instance for networking the configuration is made using IP segments
+*By default the traffic is able to flow between subnets
+*If we want that the web servers have direct traffic to Internet we need a Gateway
+*The Internet Gateway is defined in "Route Tables"
+*VPC has "Region Scope"
+*Subnets have "AZ Scope"
+*VPC, Subnets and Rules can be imported from a Cloud Information Template
+*Port 80 should be closed in an EZ instance if the server is not a Webserver
+*Shared Responsibility
+ -Developer Responsibility: +Data & Config
+							+Application
+							+Guest OS
+ -AWS Responsibility: 		+Hypervisor
+							+Network
+							+Physical
+*EC Metadata							
+ -To view the log file, type the command below in your instance terminal.
+  cat /var/log/cloud-init-output.log
 
+ -Explore the log file to see the log entries generated for installing the user data script.
+  To view the instance metadata, type the command below:
+  curl http://169.254.169.254/latest/meta-data/
+
+ -Execute the command below to get the instance identity document of your instance:
+  curl http://169.254.169.254/latest/dynamic/instance-identity/document
+
+ -Execute the command below to get the instance public IP address:
+  curl http://169.254.169.254/latest/meta-data/public-ipv4
+
+ -Execute the command below to get the MAC address of the instance:
+  curl http://169.254.169.254/latest/meta-data/mac
+
+ -Execute the command below to get the VPC ID in which the instance resides. Make sure to replace Your-MAC in the command below with the MAC address of your instance:
+  curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/Your-MAC/vpc-id
+
+ -Execute the command below to get the subnet-id in which the instance resides. Make sure to replace Your-MAC in the command below with the MAC address of your instance:
+  curl http://169.254.169.254/latest/meta-data/network/interfaces/macs/Your-MAC/subnet-id
+
+ -Execute the command below to get the instance user data:
+  curl http://169.254.169.254/latest/user-data
 
 Key Topics
 AWS Cloud
