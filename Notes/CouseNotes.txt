@@ -63,4 +63,8 @@ Week 2 Notes
 *First lines of code:
 import boto3
 S3 client = boto3.resource('S3'); #it can be also EC3, DynamoDB, and so on
-S3.meta.client.upload_file(...here we pass all the parameters needed for the call...);
+S3.meta.client.upload_file(...here we pass all the parameters needed for the call...)
+
+*When creating a new IAM User:
+ -Programmatic access is for users that are intended to work with CLI and SDK'scale
+ -AWS Management Console Access is for users that are only intended to manage the system through the console.
