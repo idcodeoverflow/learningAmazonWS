@@ -53,6 +53,8 @@
 
  -Execute the command below to get the instance user data:
   curl http://169.254.169.254/latest/user-data
+  
+ -169.254.169.254: it's the equivalent to 127.0.0.1 but it's for the EC2 instance making the request
 
 Key Topics
 AWS Cloud
@@ -113,3 +115,87 @@ S3.meta.client.upload_file(...here we pass all the parameters needed for the cal
 *When creating a new IAM User:
  -Programmatic access is for users that are intended to work with CLI and SDK'scale
  -AWS Management Console Access is for users that are only intended to manage the system through the console.
+
+*Amazon S3 is object storage built to store and retrieve, any amount of data from anywhere.
+*Amazon S3 is designed to provide 99.999999999% of durability and 99.99% of availability.
+*Buckets are the fundamental containers in Amazon S3 for data storage, a bucket lives an Amazon Region giving us control over the location of the data.
+*From a Bucket Name and an Object Key we can build a URL to access an object:
+ -https://%bucket_name%/s3.amazonaws.com/photo/%key%
+*By default all S3 Buckets are private, only the AWS Account that created them can access them
+*There are 3 methods to set the access control for Buckets:
+ -Bucket Policies: JSON-policy document for a bucket which specifies the actions that a principle can take on a bucket
+ -IAM for Users and Groups: a policy can be attached to a User or Group and allow them to access to certain buckets
+ -Access Control Lists: can be used to grant an AWS Account, list and write privileges to a bucket, or read access to an object
+*Signed URL's: The application can share objects with others by creating a pre-signed URL; using the credential in the application, we can grant time-limited permission to view an object. It looks like this:
+ -https://%bucket_name%/s3.amazonaws.com/photo/%key%?AWSAccessKeyID=%aKey%&Signature=%secretKey%&Expires=%timestampUnixFormat%
+
+*Amazon Recognition:
+ -It's a Machine Learning features
+ -Object and Scene recognition
+ -Detect-labels: the response is a list of labels with a confident value (the likelihood of being a certain object or scene)
+ -Detect-faces: takes an image, and the response is collection of detail structures (bounding box, landmarks, age, eyeglasses, emotions)
+ -Facial recognition: is achieved by creating an "index-faces", it's a collection of faces and we can search on it by matching entries from a certain face
+  +We can search by faceId
+  +We can search by Image
+ -Amazon Rekognition has a lot of features like:
+  +Find text in images
+  +Person tracking
+  +Find unsafe content
+  +Celebrity recognition
+  
+*Week 2 Notes
+
+AWS SDKs
+AWS SDKs are available for many popular programming languages. The AWS SDK for Python, is called Boto3.
+
+If you would like to install and configure Boto3 locally, review the the Boto3 Quickstart on the Read The Docs site.
+
+SDK documentation will include both high level guides and reference documentation. You can find the documentation for Boto3 at Read the Docs.
+
+AWS Identity and Access Management
+AWS Identity and Access Management (IAM) is a web service that helps you securely control access to AWS resources. We typically use credentials from IAM Users or IAM Roles to authenticate with AWS when making API calls. We control the permissions for which API actions those Users or Roles can perform with IAM Policies.
+
+Making AWS API Calls
+AWS API requests are made against a specific API endpoints located in a specific AWS Region. In this class, we are using the "us-west-2" region which is located in Oregon. For example, here are the API endpoints for Rekognition and the API endpoints for S3.
+
+API requests are typically signed with an access key belonging to an IAM User and using the Signature Version 4 Signing Process. It is also possible to sign these API requests using temporary security credentials such as those derived from an IAM Role.
+
+AWS SDKs check several locations for credentials such as local configuration files and environment variables. If the SDK finds credentials, it will automatically sign your API requests for you. For example, here is how the Python SDK checks for Credentials.
+
+Developing in the cloud with AWS Cloud9
+AWS Cloud9 is a cloud-based integrated development environment (IDE) that lets you write, run, and debug your code with just a browser. It includes a code editor, debugger, and terminal. You can run this development environment on a managed Amazon EC2 instance that automatically sleeps when you aren't using it.
+
+Make sure to follow the exercise directions carefully when setting up your Cloud9 instance - it needs to be launched in the specified VPC so that you can access resources that you'll be creating in the coming weeks.
+
+Amazon S3
+Amazon Simple Storage Service (S3) is object storage built to store and retrieve any amount of data from anywhere – web sites and mobile apps, corporate applications, and data from IoT sensors or devices. You can store files as Objects within S3 Buckets.
+
+In this course, we are using Amazon S3 to store photos.
+
+By default, the objects you put into S3 are private. S3 allows you to use Bucket Policies, IAM Policies, and ACLs to grant permissions to the contents of the bucket. You can also use Presigned URLs for time-limited access to objects.
+
+Presigned URLs are how we are granting access to images in our Python Application. The S3 Service Feature Guide for Boto3 contains Python examples of working with S3. In particular, you should review the sectin on Generating Presigned Urls.
+
+Amazon Rekognition
+Amazon Rekognition is a service that applies deep learning to analyze the contents of images and videos. It supports functionality such scene detection, face detection, even celebrity recognition. In this class, we are using the Detect Labels functionality which takes an image as input and returns labels with confidence values such as {Name: lighthouse, Confidence: 98.4629}
+
+Additional Details
+More on AWS Identity And Access Management
+When you log in to AWS using your email address and password, you are authenticating as the Root User for the account. The best practice is to avoid logging in as Root except for a handful of operations that only the root user can perform.
+
+Instead, you can create IAM Users within your AWS Account for yourself and for any others that need access to resources in your account. IAM Users have a set of permanent credentials such as an Access Key for API access or a Console Password.
+
+Permissions are granted or denied with IAM Policies. By default, all permissions are denied unless explicitly granted. You may select predefined permissions from the list of AWS Managed Policies or define your own custom IAM policies.
+
+If you find that you'll have several users who need similar permissions, you can define an IAM Group and associate your users to the group.
+
+When working with AWS Services, you may also encounter IAM Roles. Many AWS services require that you use roles to control what that service can access. IAM Roles provide only temporary security credentials. One common case is allowing the EC2 service to distribute credentials to your application code running on an EC2 instance. Roles can also enable other scenarios in the enterprise such as cross-account access and identity federation.
+
+AWS Signature V4 Process
+If you'd like to explore Signature V4 Signing further, here's some example code that creates HTTP requests and generates the appropriate signature.
+
+What you accomplished this week
+You created an IAM User and are following the best practice of not using Root User in your AWS Account
+You installed the AWS SDK and configured credentials
+You launched and configured Cloud9 IDE environment
+You ran a Python Application that makes AWS API calls to Amazon S3 and AWS Rekognition
