@@ -199,3 +199,21 @@ You created an IAM User and are following the best practice of not using Root Us
 You installed the AWS SDK and configured credentials
 You launched and configured Cloud9 IDE environment
 You ran a Python Application that makes AWS API calls to Amazon S3 and AWS Rekognition
+
+Week 3 Notes
+
+*IAM Roles are not associated with a specific user or group, instead a trusted identity assumes a role. When we assume a role we receive time-limited security credentials.
+*Roles are powered by the AWS Security Token Service.
+*Roles can be assumed by:
+ -AWS Service, for example an EC2 instance
+ -Another AWS Account
+*When a role is assumed, BOTO automatically runs with the permission of the role.
+*The Temporary Security Credentials for an instance live in the Instance Metadata Service.
+*A DB Instance is an isolated database environment in the Cloud.
+*A DB instance can be created via:
+ -AWS Management Console
+ -AWS Command Line Interface
+ -RDS(Relational Data Base) API
+*A DB Instance is the "major building block" of RDS. 
+*A DB Instance can hold or house multiple databases, it's not one database per DB Instance.
+
