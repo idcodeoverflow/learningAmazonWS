@@ -216,4 +216,62 @@ Week 3 Notes
  -RDS(Relational Data Base) API
 *A DB Instance is the "major building block" of RDS. 
 *A DB Instance can hold or house multiple databases, it's not one database per DB Instance.
+*S3 automatically replicates our data, and allows us to turn on things like versioning.
+*RDS makes nightly backups of our data, and also to run it in Multi-AZ configuration.
+*The latency between AZ's is low enough to sinchronically replicate data, if an application is critical it can also be deployed among multiple AWS Regions.
+*AWS Elastic Load Balancer: is a load balancer as a fully managed service and avoids introducing a single point of failure into our application.
+*Requirements to configure the load balancer in AWS:
+ -Networking configuration (VPC, Security Groups, setting up the ports on which our load balancer is listening, select the AZ's in which we want to be able to load balance the application).
+ -Select which EC2 instances it should point the traffic to
+ -Configure a health check (the load balancer can check the status of our servers and only direct traffic to server that are able to respond successfully).
+ -Start using the load balancer by pointing the hostname to the load  balancer (we can do it using DNS in AWS with route 53, or any other DNS provider).
+*uWSGI: Web Server Gateway Interface
+*NGINX: is an open source web server
+
+Week 3 Notes and Resources
+
+Key Concepts
+Amazon RDS
+Amazon Relational Database service allows you to run a managed db instance with your choice of one of 6 relational database engines such as MySQL which we are using in this class. AWS will patch the software on the instance on your behalf and schedule daily backups. You can run your database privately, within your VPC and can also configure it to run in a multi-AZ deployment.
+
+Amazon ELB
+Amazon Elastic Load Balancer provides several types of load balancer as a managed service. In this course, we are using Application Load Balancer so that we can isolate users from our application servers. This enables us to operate redundant servers to improve the uptime of our application and in the future, run multiple servers so we can scale our application to handle more users.
+
+Participate
+This week, feel free to share you favorite, 'my server crashed and I had to recover it' stories in the discussion forums!
+
+Notes on Hard Drive Failures
+For those who are interested, here's a bit more about dice demo.
+
+Probability of rolling '1' six times = (1/6)^6 = 2.14E-05
+
+For the example in the video, we assumed a flat 2% Annualized Failure Rate (AFR) for mechanical hard drives based on publicly available stats from BackBlaze and assumed a constant failure rate over time.
+
+We can find the daily failure rate (p) by modeling the probability that a given hard drive survives through the end of the year.
+
+This leads to the following equation: (1-p)^365 = 0.98
+
+Solving the above for p, we get p = 5.53E-05
+
+We can see that at an AFR of 2%, a hard drive failure is more than twice as likely as rolling the same number 6 times in a row with dice.
+
+The failure rate for hard drives may actually be much higher - industry estimates vary and AWS documentation states commodity drives may fail as often as 4% AFR. Put another way, if you have 1000 hard drives in your data center, by the end of the year you can expect that 20 - 40 of those drives have failed!
+
+In practice, the failure rate varies with time. If you really want to dig into hard drive failures you can review the following papers.
+
+Disk failures in the real world
+Flash Reliability in Production
+Does the hard drive failure rate apply to my application on EC2?
+Not directly as you will typically provision storage volumes for EC2 using Amazon EBS.
+
+"Amazon EBS volumes are designed for an annual failure rate (AFR) of between 0.1% - 0.2%, where failure refers to a complete or partial loss of the volume, depending on the size and performance of the volume. This makes EBS volumes 20 times more reliable than typical commodity disk drives, which fail with an AFR of around 4%.
+
+For example, if you have 1,000 EBS volumes running for 1 year, you should expect 1 to 2 will have a failure. EBS also supports a snapshot feature, which is a good way to take point-in-time backups of your data."
+
+--Amazon EBS Availability and Durability
+
+What you accomplished this week
+You learned how to use a managed database provided by Amazon RDS to store the descriptions and tags of the user images.
+You also created a load balancer so that you could add redundant copies of your web server to improve the availability and scalability of the application.
+
 
