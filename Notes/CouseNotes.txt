@@ -409,5 +409,32 @@ You integrated user authentication and authorization into the application
 You connected to your application over an SSH tunnel
 You learned about options for securing the data in transit and at rest for the application
   
-  
+Week 5 Notes
+
+*AWS X-Ray traces requests made by our application, gathers information, and reports this back to the cloud:
+ -This gives us some great performance metrics and error reporting in both prod and dev environments
+ -Is intended to analyze en debug distributed applications
+ -The X-Ray SDK sends the information to the X-Ray Daemon running on the application, and this sends the information the X-Ray API
+ -Allows us to create a map of which pieces are talking to other pieces and the latency of these calls.
+ -AWS X-Ray Traces:
+  +Segments: it's a representation of a request that an application serves.
+  +Sub-segments: record calls to AWS Services and Resources made with AWS SDK, calls to internal or external HTTP API's and even queries to SQL DB's, also it can debug or annotate blocks of code inside your application. 
+  +Annotations/Metadata: Annotations are simple key/value pairs that are indexed. Metadata are key/value pairs with values of any type including objects and lists that are not indexed but visible for you to debug inside the console.
+ -The X-Ray Daemon is initiated using the following command: ./xray
+*AWS Lambda is the service where we can run our code without provisioning or managing the service.
+ -The image labels are getting created asynchronously (after the image is uploaded, off the webserver, the image is being processed for labels).
+*The following services can be integrated with AWS Lambda:
+ -API Gateway (public, create, maintain and secure our API's at any scale) the requests coming from the API can be executed by the lambda function
+ -DynamoDB streams: we can fire a lambda function when changes happen in a DynamoDB table
+ -Kinesis: this is suppose to stream data, we configure lambda functions to process the stream as it arrives.
+ -S3: when a new object is stored into a bucket we can execute a lambda function.
+ -SNS (Simple Notification Service): is the place for publish and subscribe inside AWS, where we can publish message into a topic. A topic can have multiple suscriptions, HTTP Post, email, and also, a Lambda function.
+ -Cognito: we can use lambda functions to customize the workflow happening inside of Cognito.
+*Before sending some code to a Lambda Function, we need to package it into a ZIP or JAR file as a deployment package that contains all of our code and dependencies. This can include native binaries, compiled for the Linux 
+ execution environment that Lambda uses.
+*The logging statements from Lambda are included onto Amazon CloudWatch Logs.
+ 
+ 
+
+
  
