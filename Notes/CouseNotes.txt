@@ -434,7 +434,37 @@ Week 5 Notes
  execution environment that Lambda uses.
 *The logging statements from Lambda are included onto Amazon CloudWatch Logs.
  
- 
+Week 5 Notes and Resources
+
+Key Concepts
+AWS X-Ray
+AWS X-Ray helps developers analyze distributed applications. With X-Ray, you can understand how your application and its underlying services are performing to identify and troubleshoot the root cause of performance issues and errors. X-Ray provides an end-to-end view of requests as they travel through your application, and shows a map of your application’s underlying components.
+
+To start publishing data to X-Ray, the following things are needed:
+* Configure the X-Ray SDK in your application
+* Ensure appropriate X-Ray permissions
+* Run the X-Ray Daemon on the server
+
+Once tracing is enabled, you can enhance the tracing by integrating X-Ray with Flask and then further extend tracing with custom subsegments.
+
+For more information on how to integrate X-Ray with a Python application, see AWS X-Ray SDK for Python. You can also review the X-Ray reference docs for Boto3.
+
+Note: AWS Lambda runs the X-Ray Daemon automatically.
+
+AWS Lambda
+AWS Lambda lets you run code without provisioning or managing servers. AWS Lambda executes your code only when needed and scales automatically, from a few requests per day to thousands per second. You pay only for the compute time you consume - there is no charge when your code is not running.
+
+In the course project, Lambda is being triggered by Amazon S3. Once triggered, the Lambda function interacts with an RDS instance within a VPC and also with AWS Rekognition APIs on the internet.
+
+Because your code is only running on-demand, in order to troubleshoot, you'll need to take advantage of monitoring. You can troubleshoot Lambda with Amazon Cloudwatch and also troubleshoot Lambda with AWS X-Ray.
+
+With Lambda, there are 2 types of permissions to be aware of. First, your code running in a Lambda function is granted permissions by using an IAM Role. Second, the service triggering your Lambda function can be granted the permissions to do so with a Lambda Function Policy. When configuring triggers using the AWS Management Console, the console will create the necessary Lambda Function Policy for you when you enable the trigger.
+
+If you want some more details about what's available to your code as it runs inside AWS Lambda, you can find out more about the Lambda execution environment in the docs.
+
+What you accomplished this week
+You traced the performance of the application with AWS X-Ray
+You offloaded the image labeling task from the server to an asynchronous task executed by AWS Lambda
 
 
  
