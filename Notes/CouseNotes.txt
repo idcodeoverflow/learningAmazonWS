@@ -466,5 +466,81 @@ What you accomplished this week
 You traced the performance of the application with AWS X-Ray
 You offloaded the image labeling task from the server to an asynchronous task executed by AWS Lambda
 
+Week 6
+
+*SNS: Amazon Simple Notification Service, is a publish-subscribe service where multiple subscribers can be notified of events in our application:
+ -SNS Topics
+*SQS: Amazon Simple Queue Service, is a manage queuing service. This is were events will be stored as messages.
+*Event Driven Architechtures: are based on frameworks that allow developers to communicate decoupled components and services between them. They allow large numbers of producers and consumers to exchange information in near real time.
+ -Are well suited for asynchronous and unpredictable environments
+ -Components of Event Driven Architechtures:
+  +Producers: rais the events and sends a message to event channel
+  +Consumers: needs to know that the event has occurred and may be involved in processing the events or may simply be affected by the event.
+  +Event Channels: is the manner in which the event is transmitted from the producer to the consumer.
+ -Event driven architechtures are loosely coupled, which means that the producers don't need to know about the broker or the other systems.
+ -They can be easily redistributed, and new producers and consumers can be added to the system seamlessly.
+*Amazon Simple Notification Service:
+ -Manages the delivery or sending of messages to subscribing endpoints.
+ -SNS is a publication subscription model or pub-sub model.
+ -Publishers: communicate asynchronously by producing and sending a message to a topic.
+ -Topic: is a logical access point and communication channel.
+ -Subscribers: consume the message or notification over one of the supported protocols.
+ -The access control for topic is handled using policies that determine who can publish to the topic, who can subscribe to the topic and what protocols can be used to communicate and subscribe to the topic.
+*Amazon Simple Queue Service:
+ -Is where we can create message queues and store our messages waiting to be processed.
+ -This is how we can move data between components and our distributed applications.
+ -Our components consuming the messages can grow and shrink in number all pointed to the same queue.
+ -This queue stores messages with extremely high durability.
+ -Builds fault tolerance into our application.
+ -Methods:
+  +send-message
+  +receive-message
+   *max-number-of-messages
+   *visibility-timeout: time before a message becomes visible to other consumers
+   *wait-time-seconds: time in seconds in which the call will remain open until we get a message or an empty response (this is how we enable long polling).
+ -The service stores the data in multiple servers to create a redundance and high availability.
+ -In rare ocassions we can receive a message duplicated.
+ -The consuming application needs to be written with idempotent operations in mind, this means that duplicated messages must not cause an issue.
+ -FIFO calls are helpful in applications in wich order or duplicated entries can cause an issue.
+
+Week 6 Notes and Resources
+
+Key Concepts
+AWS Messaging Services
+In modern cloud architecture, applications are decoupled into smaller, independent building blocks that are easier to develop, deploy and maintain.
+
+In this course, part of the application runs on EC2, part of it on AWS Lambda, and another part could run on-premises. Message brokers make it easier to decouple these parts of the application and process events asynchronously.
+
+AWS offers several messaging services and these include:
+
+Amazon Simple Notification Service
+Amazon Simple Queue Service
+Message Broker for AWS IoT
+Amazon MQ
+For more on developing distributed applications that use messaging services, see Building Scalable Applictions and Microservices: Adding Messaging to Your Toolbox on the AWS Blog.
+
+Publish and Subscribe with Amazon SNS
+Amazon Simple Notification Service (SNS) is a fully managed Publish Subscribe (pub/sub) messaging service that makes it easy to decouple and scale microservices, distributed systems, and serverless applications. With SNS, you can use topics to decouple message publishers from subscribers and to fan-out messages to multiple recipients at once.
+
+The Publish Subscribe model allows messages to be broadcast to different parts of a system asynchronously. A message topic provides a lightweight mechanism to broadcast asynchronous event notifications.
+
+In the class project, the publisher is Amazon S3 which is publishing events as new objects appear in the Bucket. There are 2 subscribers - an AWS Lambda function and an Amazon SQS Queue.
+
+You can review the SNS Reference docs for Boto3.
+
+Message Queues with with Amazon SQS
+Amazon Simple Queue Service (SQS) is a fully managed message queuing service. SQS makes it simple and cost-effective to decouple and coordinate the components of a cloud application.
+
+Message queues allow different parts of a system to communicate and process operations asynchronously. A message queue provides a lightweight buffer which temporarily stores messages. To send a message, a component called a producer adds a message to the queue. The message is stored on the queue until another component called a consumer retrieves the message and does something with it.
+
+In the class project, the publisher is an Amazon SNS topic. The subscriber is a server polling for images to print. This architecture gives us the option of running the printing server on-premises while the main application and the Lambda function continue to run in AWS.
+
+You can review the SQS Sample tutorial or the Boto3 SQS Reference docs.
+
+What you accomplished this week
+You refactored the application to include an SNS topic to enable additional services to subscribe to new image upload events.
+You added a queue to the application to allow for a new service to poll for incoming photos.
+YOU COMPLETED THE COURSE!! :)
+Don't forget to register for our next course: Deploying on AWS
 
  
